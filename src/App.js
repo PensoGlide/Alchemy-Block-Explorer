@@ -23,11 +23,11 @@ function App() {
   const [blockNumber, setBlockNumber] = useState();
   const [selectedBlockNumber, setSelectedBlockNumber] = useState();
   const [blockInfo, setBlockInfo] = useState();
+  const [transactionInfo, setTransactionInfo] = useState();
   const [getBlockInfoExecuted, setGetBlockInfoExecuted] = useState(false);
 
   async function getBlockInfo(blockNumber) {
     const blockInfo = await alchemy.core.getBlock(blockNumber);
-    console.log(blockInfo);
     setBlockInfo(blockInfo);
   }
 
@@ -37,6 +37,11 @@ function App() {
       return;
     }
     getBlockInfo(number);
+  }
+
+  async function searchTransaction(hash) {
+    const transactionInfo = await alchemy.core.getTransactionReceipt(hash);
+    setTransactionInfo(transactionInfo);
   }
 
   useEffect(() => {
@@ -75,49 +80,127 @@ function App() {
         </div>
       </div>
 
-      {blockInfo && (
-        <div className='block-info'>
-          <div>
-            <h2>Selected Block: {blockInfo.number}</h2>
+      <div className='columns'>
+        {blockInfo && (
+          <div className='block-info'>
+            <div>
+              <h2>Selected Block: {blockInfo.number}</h2>
+            </div>
+            <div className='block-property'>
+              <h3>Hash</h3>
+              <p>
+                {blockInfo.hash}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Parent Hash</h3>
+              <p>
+                {blockInfo.parentHash}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Timestamp</h3>
+              <p>
+                {blockInfo.timestamp}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Nonce</h3>
+              <p>
+                {blockInfo.nonce}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Difficulty</h3>
+              <p>
+                {blockInfo.difficulty}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Gas Limit</h3>
+              <p>
+                {blockInfo.gasLimit.toString()}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Gas Used</h3>
+              <p>
+                {blockInfo.gasUsed.toString()}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Miner</h3>
+              <p>
+                {blockInfo.miner}
+              </p>
+            </div>
+            <div id='transactions' className='block-property'>
+              <h3 className='transactions-heading'>Transactions</h3>
+              <div className='all-transactions'>
+              {blockInfo.transactions.map((transaction, index) => (
+                <div key={index} className='transaction' onClick={async () => {
+                  await searchTransaction(transaction);
+                }}>
+                  <p>
+                    {transaction}
+                  </p>
+                </div>
+              ))}
+              </div>
+            </div>
           </div>
-          <div className='block-property'>
-            <p>Hash</p>
-            {blockInfo.hash}
+        )}
+        
+        {transactionInfo && (
+          <div className='transaction-info'>
+            <div className='transaction-header'>
+              <h2>Selected transaction: {transactionInfo.transactionHash}</h2>
+            </div>
+            <div className='block-property'>
+              <h3>To</h3>
+              <p>
+                {transactionInfo.to}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>From</h3>
+              <p>
+                {transactionInfo.from}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Contract Address</h3>
+              <p>
+                {transactionInfo.contractAddress}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Transaction Index</h3>
+              <p>
+                {transactionInfo.transactionIndex}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Gas Used</h3>
+              <p>
+                {transactionInfo.gasUsed.toString()}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Status</h3>
+              <p>
+                {transactionInfo.status}
+              </p>
+            </div>
+            <div className='block-property'>
+              <h3>Effective Gas Price</h3>
+              <p>
+                {transactionInfo.effectiveGasPrice.toString()}
+              </p>
+            </div>
           </div>
-          <div className='block-property'>
-            <p>Parent Hash</p>
-            {blockInfo.parentHash}
-          </div>
-          <div className='block-property'>
-            <p>Timestamp</p>
-            {blockInfo.timestamp}
-          </div>
-          <div className='block-property'>
-            <p>Nonce</p>
-            {blockInfo.nonce}
-          </div>
-          <div className='block-property'>
-            <p>Difficulty</p>
-            {blockInfo.difficulty}
-          </div>
-          <div className='block-property'>
-            <p>Gas Limit</p>
-            {blockInfo.gasLimit.toString()}
-          </div>
-          <div className='block-property'>
-            <p>Gas Used</p>
-            {blockInfo.gasUsed.toString()}
-          </div>
-          <div className='block-property'>
-            <p>Miner</p>
-            {blockInfo.miner}
-          </div>
-          <div className='block-property'>
-            <p>Transactions</p>
-            {blockInfo.transactions}
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

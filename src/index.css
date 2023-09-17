@@ -11,3 +11,87 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.header {
+  margin: 20px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.columns {
+  margin: 20px;
+  width: 50%;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+ 
+.block-property {
+  display: flex;
+  align-items: center;
+
+  flex-direction: row; /* Arrange columns side by side */
+  justify-content: space-between;
+  text-align: start;
+}
+
+.block-info h3 {
+  flex: 0 0 17%; /* Set a specific width for the left column (e.g., 30%) */
+  margin: 0; /* Reset margin for h3 */
+  padding: 10px; /* Add padding as needed */
+  vertical-align: top;
+  text-align: left;
+}
+
+.block-info h3.transactions-heading {
+  align-self: flex-start; /* Align the <h3> to the top */
+}
+
+.block-info p {
+  flex: 1; /* Allow the right column to grow and fill the remaining space */
+  margin: 0; /* Reset margin for p */
+  padding: 10px; /* Add padding as needed */
+  overflow: auto;
+
+  background-color: #F5FBFF;
+}
+
+.block-property > p {
+  font-family: "Courier New";
+}
+
+.all-transactions {
+  font-family: "Courier New";
+  overflow: auto;
+}
+
+.transaction > p {
+  padding-bottom: 15px;
+}
+
+.transaction > p:hover {
+  color: #4486bf
+}
+
+/**** Transaction ****/
+
+.transaction-header {
+  overflow: auto;
+}
+
+.transaction-info h3 {
+  flex: 0 0 17%; /* Set a specific width for the left column (e.g., 30%) */
+  margin: 0; /* Reset margin for h3 */
+  padding: 10px; /* Add padding as needed */
+}
+
+.transaction-info p {
+  flex: 1; /* Allow the right column to grow and fill the remaining space */
+  margin: 0; /* Reset margin for p */
+  padding: 10px; /* Add padding as needed */
+  overflow: auto;
+
+  background-color: #F5FBFF;
+}
